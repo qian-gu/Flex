@@ -36,6 +36,15 @@
         &#8226; {{ _('%(minutes)s min read', minutes=article.stats['read_mins']) }}
       {% endif %}
     </p>
+    <div class="tag-cloud">
+      <p>
+        {% if article.tags %}
+        {% for tag in article.tags %}
+        <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+        {% endfor %}
+        {% endif %}
+      </p>
+    </div>
   </header>
 
   {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.article_top %}
@@ -48,17 +57,31 @@
     </script>
   {% endif %}
 
+  {% if article.series %}
+  <div class="related-posts">
+   {% set text = SERIES_TEXT|default('Part %(index)s of the %(name)s series') %}
+    <h4>{{ text|format(index=article.series.index, name=article.series.name) }}</h4>
+    {% if article.series.all_previous %}
+       <h5>Previous articles</h5>
+       <ul>
+       {% for article in article.series.all_previous %}
+           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+    {% if article.series.all_next %}
+       <h5>Next articles</h5>
+       <ul>
+       {% for article in article.series.all_next %}
+           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+  </div>
+  {% endif %}
+
   <div>
     {{ article.content }}
-  </div>
-  <div class="tag-cloud">
-    <p>
-      {% if article.tags %}
-      {% for tag in article.tags %}
-      <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
-      {% endfor %}
-      {% endif %}
-    </p>
   </div>
 
   {% if ADD_THIS_ID %}
@@ -83,29 +106,6 @@
   </div>
   {% elif ADD_THIS_ID %}
     <div class="addthis_relatedposts_inline"></div>
-  {% endif %}
-
-  {% if article.series %}
-  <div class="related-posts">
-   {% set text = SERIES_TEXT|default('Part %(index)s of the %(name)s series') %}
-    <h4>{{ text|format(index=article.series.index, name=article.series.name) }}</h4>
-    {% if article.series.all_previous %}
-       <h5>Previous articles</h5>
-       <ul>
-       {% for article in article.series.all_previous %}
-           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
-       {% endfor %}
-       </ul>
-    {% endif %}
-    {% if article.series.all_next %}
-       <h5>Next articles</h5>
-       <ul>
-       {% for article in article.series.all_next %}
-           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
-       {% endfor %}
-       </ul>
-    {% endif %}
-  </div>
   {% endif %}
 
   {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.article_bottom %}
