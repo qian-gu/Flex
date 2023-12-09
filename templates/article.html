@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% import 'pcs/comments.html' as pcs with context %}
-
 {% block meta %}
 <meta name="author" content="{{ article.author.name }}" />
 <meta name="description" content="{{ article.summary|striptags|escape }}" />
@@ -120,7 +118,5 @@
 
   {% include "partial/disqus.html" %}
   {% include "partial/isso.html" %}
-
-  {{pcs.comments_quickstart("guqian110", "163.com")}}
 </article>
 {% endblock %}
