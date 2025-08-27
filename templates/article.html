@@ -20,6 +20,7 @@
 {% block content %}
 <article class="single">
   <header>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.1.0/css/all.css" rel="stylesheet">
     {% if not ARTICLE_HIDE_TRANSLATION %}
       {% import 'partial/translations.html' as translations with context %}
       {{ translations.translations_for(article) }}
